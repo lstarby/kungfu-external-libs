@@ -15,7 +15,8 @@
     "kf-exlibs": "cli.js"
   },
   "scripts": {
-    "cli": "node cli.js"
+    "cli": "node cli.js",
+    "publish-package": "npm publish"
   },
   "dependencies": {
     "fs-extra": "^9.1.0",
