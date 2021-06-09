@@ -1,0 +1,25 @@
+{
+  "name": "@kungfu-trader/kungfu-exlibs",
+  "author": "Kungfu Trader",
+  "version": "1.0.0",
+  "description": "Kungfu External Libs",
+  "license": "Apache-2.0",
+  "main": "index.js",
+  "repository": {
+    "url": "https://github.com/kungfu-trader/kungfu-exlibs.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "bin": {
+    "kf-exlibs": "cli.js"
+  },
+  "scripts": {
+    "cli": "node cli.js"
+  },
+  "dependencies": {
+    "fs-extra": "^9.1.0",
+    "glob": "^7.1.6",
+    "yargs": "^16.2.0"
+  }
+}

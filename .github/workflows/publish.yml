@@ -1,0 +1,70 @@
+name: Publish
+
+on:
+  workflow_dispatch:
+    inputs:
+      overwrite:
+        description: 'Type true to overwrite packages'
+        required: true
+        default: 'false'
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  publish:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Check Packages Publishable
+        id: check-packages
+        uses: kungfu-trader/action-check-packages@v1.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          overwrite: ${{ github.event.inputs.overwrite }}
+
+      - name: Setup NPM registry
+        if: ${{ steps.check-packages.outputs.publishable  == 'true' }}
+        uses: actions/setup-node@v2
+        with:
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@kungfu-trader'
+
+      - name: Configure AWS Crendentials (US)
+        if: ${{ steps.check-packages.outputs.publishable  == 'true' }}
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_US_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_US_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Publish Libs to AWS (US)
+        run: |
+          aws s3 sync libs s3://kungfu-exlibs --acl public-read --only-show-errors
+
+      - name: Configure AWS Crendentials (CN)
+        if: ${{ steps.check-packages.outputs.publishable  == 'true' }}
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_CN_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_CN_SECRET_ACCESS_KEY }}
+          aws-region: cn-northwest-1
+
+      - name: Publish Libs to AWS (CN)
+        run: |
+          aws s3 sync libs s3://kungfu-exlibs --acl public-read --only-show-errors
+
+      - name: Clean Stale Packages
+        if: ${{ steps.check-packages.outputs.publishable  == 'true' }}
+        uses: kungfu-trader/action-clean-packages@v1.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          action-path: ${{ github.action_path }}
+
+      - name: Publish to GitHub Packages
+        if: ${{ steps.check-packages.outputs.publishable  == 'true' }}
+        run: yarn publish-package
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
