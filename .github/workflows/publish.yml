@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       overwrite:
-        description: 'Type true to overwrite packages'
+        description: "Type true to overwrite packages"
         required: true
-        default: 'false'
+        default: "false"
   pull_request:
     branches:
       - main
@@ -29,8 +29,8 @@ jobs:
         if: ${{ steps.check-packages.outputs.publishable  == 'true' }}
         uses: actions/setup-node@v2
         with:
-          registry-url: 'https://npm.pkg.github.com'
-          scope: '@kungfu-trader'
+          registry-url: "https://npm.pkg.github.com"
+          scope: "@kungfu-trader"
 
       - name: Configure AWS Crendentials (US)
         if: ${{ steps.check-packages.outputs.publishable  == 'true' }}
@@ -41,6 +41,7 @@ jobs:
           aws-region: us-east-1
 
       - name: Publish Libs to AWS (US)
+        if: ${{ steps.check-packages.outputs.publishable  == 'true' }}
         run: |
           aws s3 sync libs s3://kungfu-exlibs --acl public-read --only-show-errors
 
@@ -53,6 +54,7 @@ jobs:
           aws-region: cn-northwest-1
 
       - name: Publish Libs to AWS (CN)
+        if: ${{ steps.check-packages.outputs.publishable  == 'true' }}
         run: |
           aws s3 sync libs s3://kungfu-exlibs --acl public-read --only-show-errors
 
