@@ -1,0 +1,12 @@
+# OS files
+.DS_Store
+*.log
+
+# NPM related
+node_modules/
+*/node_modules/
+dist/
+*/dist/
+.project
+package-lock.json
+yarn.lock
