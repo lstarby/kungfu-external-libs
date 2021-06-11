@@ -12,11 +12,7 @@
     "registry": "https://npm.pkg.github.com"
   },
   "bin": {
-    "kf-exlibs": "cli.js"
-  },
-  "scripts": {
-    "cli": "node cli.js",
-    "publish-package": "npm publish"
+    "kf-exlibs": "index.js"
   },
   "dependencies": {
     "fs-extra": "^9.1.0",

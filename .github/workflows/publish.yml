@@ -32,6 +32,12 @@ jobs:
           registry-url: "https://npm.pkg.github.com"
           scope: "@kungfu-trader"
 
+      - name: Build Lib Index
+        if: ${{ steps.check-packages.outputs.publishable  == 'true' }}
+        run: |
+          npm install
+          node buildIndex.js
+ 
       - name: Configure AWS Crendentials (US)
         if: ${{ steps.check-packages.outputs.publishable  == 'true' }}
         uses: aws-actions/configure-aws-credentials@v1
@@ -67,6 +73,6 @@ jobs:
 
       - name: Publish to GitHub Packages
         if: ${{ steps.check-packages.outputs.publishable  == 'true' }}
-        run: yarn publish-package
+        run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
