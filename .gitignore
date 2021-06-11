@@ -10,3 +10,6 @@ dist/
 .project
 package-lock.json
 yarn.lock
+
+# build files
+libs/*.json
