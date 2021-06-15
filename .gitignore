@@ -13,3 +13,4 @@ yarn.lock
 
 # build files
 libs/*.json
+build/
