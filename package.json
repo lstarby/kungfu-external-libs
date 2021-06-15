@@ -12,11 +12,18 @@
     "registry": "https://npm.pkg.github.com"
   },
   "bin": {
-    "kf-exlibs": "index.js"
+    "kf-exlibs": "cli.js"
+  },
+  "scripts": {
+    "exlibs": "node cli.js"
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "fs-extra": "^9.1.0",
     "glob": "^7.1.6",
+    "request": "^2.88.2",
+    "semver": "^7.3.5",
+    "treeify": "^1.1.0",
     "yargs": "^16.2.0"
   }
 }
