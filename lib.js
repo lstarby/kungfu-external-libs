@@ -7,9 +7,9 @@ const { spawn, spawnSync } = require("child_process");
 const spawnOptsInherit = { shell: true, stdio: "inherit", windowsHide: true };
 const spawnOptsPipe = { shell: true, stdio: "pipe", windowsHide: true };
 
-const libsite = "http://ex.libkungfu.cc";
+const libSiteURL = "http://ex.libkungfu.cc";
 
-exports.getExLibs = async function (matchName, matchVersion, listVersion, listPlatform) {
+exports.getExLibs = async function (matchName, matchVersion, listVersion = true, listPlatform = false) {
     const getLibOsImpl = function (targetLibVersion, sourceLibVersion) {
         for (const osName in sourceLibVersion) {
             targetLibVersion[osName] = {};
@@ -24,7 +24,7 @@ exports.getExLibs = async function (matchName, matchVersion, listVersion, listPl
             }
         }
     };
-    const response = await axios.get(`${libsite}/index.json`);
+    const response = await axios.get(`${libSiteURL}/index.json`);
     const sourceLibs = response.data;
     const targetLibs = {};
     for (const libName in sourceLibs) {

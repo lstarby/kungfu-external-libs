@@ -49,7 +49,7 @@ jobs:
       - name: Publish Libs to AWS (US)
         if: ${{ steps.check-packages.outputs.publishable  == 'true' }}
         run: |
-          aws s3 sync libs s3://kungfu-exlibs --acl public-read --only-show-errors
+          aws s3 sync libs s3://kungfu-exlibs --delete --acl public-read --only-show-errors
 
       - name: Configure AWS Crendentials (CN)
         if: ${{ steps.check-packages.outputs.publishable  == 'true' }}
@@ -62,7 +62,7 @@ jobs:
       - name: Publish Libs to AWS (CN)
         if: ${{ steps.check-packages.outputs.publishable  == 'true' }}
         run: |
-          aws s3 sync libs s3://kungfu-exlibs --acl public-read --only-show-errors
+          aws s3 sync libs s3://kungfu-exlibs --delete --acl public-read --only-show-errors
 
       - name: Clean Stale Packages
         if: ${{ steps.check-packages.outputs.publishable  == 'true' }}
