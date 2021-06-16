@@ -1,5 +1,5 @@
 const axios = require("axios");
-const fs = require("fs");
+const fse = require("fs-extra");
 const path = require("path");
 const http = require("http");
 const { spawn, spawnSync } = require("child_process");
@@ -35,4 +35,17 @@ exports.getExLibs = async function (matchName, matchVersion, listVersion = true,
         }
     }
     return targetLibs;
+};
+
+exports.downloadLib = async function (libName, libVersion) {
+    const response = await axios.get(`${libSiteURL}/index.json`);
+    const sourceLibs = response.data;
+    const includeDir = path.join(__dirname, "build", "include");
+    const binDir = path.join(__dirname, "build", "lib");
+    fse.ensureDirSync(includeDir);
+    fse.ensureDirSync(binDir);
+
+    if (libName in sourceLibs && libVersion in sourceLibs[libName]) {
+        console.log(`found lib ${libName}`);
+    }
 };
