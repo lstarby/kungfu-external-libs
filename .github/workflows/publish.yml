@@ -38,7 +38,7 @@ jobs:
 
       - name: Publish Libs to AWS (US)
         run: |
-          aws s3 sync libs s3://kungfu-exlibs --delete --acl public-read --only-show-errors
+          aws s3 sync libs s3://kungfu-external-libs --delete --acl public-read --only-show-errors
 
       - name: Configure AWS Crendentials (CN)
         uses: aws-actions/configure-aws-credentials@v1
@@ -49,5 +49,5 @@ jobs:
 
       - name: Publish Libs to AWS (CN)
         run: |
-          aws s3 sync libs s3://kungfu-exlibs --delete --acl public-read --only-show-errors
+          aws s3 sync libs s3://kungfu-external-libs --delete --acl public-read --only-show-errors
           aws cloudfront create-invalidation --distribution-id EA42RXUX7FOED --paths '/*'
